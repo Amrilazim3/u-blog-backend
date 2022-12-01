@@ -12,9 +12,9 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
-            'device_name' => 'required',
+            'password_confirm' => 'required',
         ]);
 
         $user = User::create([
@@ -23,6 +23,12 @@ class RegisterController extends Controller
             'password' => $request->password
         ]);
 
-        return $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->name)->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token 
+        ]);
+
     }
 }
