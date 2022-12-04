@@ -18,7 +18,8 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'profile_image_url' => 'https://xsgames.co/randomusers/assets/avatars/male/' + rand(1, 20) + '.png',
+            'password' => 'password', // password
             'remember_token' => Str::random(10),
         ];
     }
