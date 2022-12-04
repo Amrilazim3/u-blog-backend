@@ -14,11 +14,13 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $jpgNumber = strval(rand(1, 20)) . ".jpg";
+        
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'profile_image_url' => 'https://xsgames.co/randomusers/assets/avatars/male/' + rand(1, 20) + '.png',
+            'profile_image_url' => "https://xsgames.co/randomusers/assets/avatars/male/$jpgNumber",
             'password' => 'password', // password
             'remember_token' => Str::random(10),
         ];
