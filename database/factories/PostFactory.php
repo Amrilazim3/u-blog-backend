@@ -22,7 +22,7 @@ class PostFactory extends Factory
             'title' => $this->faker->sentence(),
             'slug' => $this->faker->unique()->slug(),
             'content' => $this->faker->paragraph(),
-            'thumbnail_url' => "https://picsum.photos/$randPhoto/400/400"
+            'thumbnail_url' => "https://picsum.photos/id/$randPhoto/400/400"
         ];
     }
 }
