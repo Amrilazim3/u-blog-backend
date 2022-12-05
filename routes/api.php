@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\PostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -22,8 +23,11 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("/logout", [LoginController::class, 'logout']);
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::prefix('/user')->group(function () {
+        Route::get('/', function (Request $request) {
+            return $request->user();
+        });
 
+        Route::resource('posts', PostController::class)->except(['ceate', 'edit']);
+    });
 });
