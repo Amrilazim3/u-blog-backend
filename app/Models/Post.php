@@ -17,6 +17,10 @@ class Post extends Model
         'thumbnail_url'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
