@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('user_id', auth()->user()->id)->paginate(5);
+        $posts = Post::where('user_id', auth()->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return response()->json([
             'posts' => $posts
@@ -38,24 +41,54 @@ class PostController extends Controller
         ]);
 
         return response()->json([
-            'status' => true
+            'success' => true
         ]);
     }
 
     public function show($id)
     {
-        //
+        return response()->json([
+            'post' => Post::where('id', $id)->first()
+        ]);
     }
 
-
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
-        //
-    }
+        $defaultPost = Post::find($id);
 
+        $request->validate([
+            'title' => 'required|string|max:30',
+            'content' => 'required|string|max:5000',
+        ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $filePath = $request->thumbnail->store('images', 'public');
+            $publicFilePath = asset("/storage/" . $filePath);
+
+            $removeFilePath = Str::replace(asset('/storage/'), '', $defaultPost->thumbnail_url);
+            Storage::disk('public')->delete($removeFilePath);
+        }
+
+        $defaultPost->update([
+            'user_id' => $request->user()->id,
+            'title' => $request->title,
+            'content' => $request->content,
+            'thumbnail_url' => $request->file('thumbnail') ? $publicFilePath : $defaultPost->thumbnail_url
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 }
