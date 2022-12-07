@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\CommentController;
 use App\Http\Controllers\Account\LikeController;
 use App\Http\Controllers\PostController as ExplorePostController;
 use App\Http\Controllers\Account\PostController as AccountPostController;
@@ -35,7 +36,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('posts', AccountPostController::class)->except(['ceate', 'edit']);
     });
 
-    Route::post('/posts/{post}/like', [LikeController::class, 'like']);
-    Route::delete('/posts/{post}/unlike', [LikeController::class, 'unlike']);
-    Route::get('/posts/{post}/has-like-post', [LikeController::class, 'hasLikePost']);
+    Route::get('/posts/{post}/likes', [LikeController::class, 'index']);
+    Route::post('/posts/{post}/likes', [LikeController::class, 'store']);
+    Route::delete('/posts/{post}/likes', [LikeController::class, 'destroy']);
+    
+    Route::get('/posts/{post}/comments', [CommentController::class, 'index']);
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
+    Route::delete('/posts/{post}/comments/{comment}', [CommentController::class, 'destroy']);
 });
