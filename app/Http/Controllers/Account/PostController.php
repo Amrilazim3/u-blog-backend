@@ -47,8 +47,12 @@ class PostController extends Controller
 
     public function show($id)
     {
+        $post = Post::where('id', $id)
+            ->withCount(['comments', 'likes']
+            )->first();
+
         return response()->json([
-            'post' => Post::where('id', $id)->first()
+            'post' => $post
         ]);
     }
 
