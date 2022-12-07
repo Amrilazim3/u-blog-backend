@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Account\PostController;
+use App\Http\Controllers\PostController as ExplorePostController;
+use App\Http\Controllers\Account\PostController as AccountPostController;
+use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -23,11 +25,12 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get("/logout", [LoginController::class, 'logout']);
 
-    Route::prefix('/user')->group(function () {
-        Route::get('/', function (Request $request) {
-            return $request->user();
-        });
+    Route::get("/posts", [ExplorePostController::class, 'index']);
 
-        Route::resource('posts', PostController::class)->except(['ceate', 'edit']);
+    Route::get("/users/{user}/posts", [UserPostController::class, 'index']);
+    Route::get("/users/{user}/posts/{post}", [UserPostController::class, 'show']);
+
+    Route::prefix('/account')->group(function () {
+        Route::resource('posts', AccountPostController::class)->except(['ceate', 'edit']);
     });
 });
