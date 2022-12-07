@@ -24,7 +24,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:30',
+            'title' => 'required|string|max:100',
             'content' => 'required|string|max:5000',
             'thumbnail' => 'file'
         ]);
@@ -52,12 +52,12 @@ class PostController extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         $defaultPost = Post::find($id);
 
         $request->validate([
-            'title' => 'required|string|max:30',
+            'title' => 'required|string|max:100',
             'content' => 'required|string|max:5000',
         ]);
 
