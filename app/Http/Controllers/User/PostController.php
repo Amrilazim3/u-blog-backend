@@ -23,7 +23,9 @@ class PostController extends Controller
 
     public function show(User $user, Post $post)
     {
-        $rPost = Post::with('user')->find($post->id);
+        $rPost = Post::with('user')
+            ->withCount(['comments', 'likes'])
+            ->find($post->id);
 
         return response()->json([
             'post' => $rPost
