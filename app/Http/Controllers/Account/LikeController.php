@@ -9,30 +9,7 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    public function like($id)
-    {
-        Like::create([
-            'user_id' => request()->user()->id,
-            'post_id' => $id
-        ]);
-
-        return response()->json([
-            'success' => true
-        ]);
-    }
-
-    public function unlike($id)
-    {
-        Like::where('user_id', request()->user()->id)
-            ->where('post_id', $id)
-            ->delete();
-
-        return response()->json([
-            'success' => true
-        ]);
-    }
-
-    public function hasLikePost($id)
+    public function index($id)
     {
         $isExists = Like::where('user_id', request()->user()->id)
             ->where('post_id', $id)
@@ -46,6 +23,29 @@ class LikeController extends Controller
 
         return response()->json([
             'success' => false
+        ]);
+    }
+
+    public function store($id)
+    {
+        Like::create([
+            'user_id' => request()->user()->id,
+            'post_id' => $id
+        ]);
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        Like::where('user_id', request()->user()->id)
+            ->where('post_id', $id)
+            ->delete();
+
+        return response()->json([
+            'success' => true
         ]);
     }
 }
