@@ -11,7 +11,10 @@ class PostController extends Controller
     {
         $posts = Post::with(['user' => function ($user) {
             return $user->select(['id', 'name']);
-        }])->orderBy('created_at', 'desc')->paginate(5);
+        }])
+            ->withCount('likes')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return response()->json([
             'posts' => $posts
