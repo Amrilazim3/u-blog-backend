@@ -4,6 +4,7 @@ use App\Http\Controllers\Account\CommentController;
 use App\Http\Controllers\Account\LikeController;
 use App\Http\Controllers\PostController as ExplorePostController;
 use App\Http\Controllers\Account\PostController as AccountPostController;
+use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -33,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/users/{user}/posts/{post}", [UserPostController::class, 'show']);
 
     Route::prefix('/account')->group(function () {
+        Route::patch('/profile', [ProfileController::class, 'update']);
+
         Route::resource('posts', AccountPostController::class)->except(['ceate', 'edit']);
     });
 
