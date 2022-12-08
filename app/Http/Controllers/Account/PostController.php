@@ -13,6 +13,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('user_id', auth()->user()->id)
+            ->withCount(['comments', 'likes'])
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
