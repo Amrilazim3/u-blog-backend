@@ -8,6 +8,7 @@ use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/logout", [LoginController::class, 'logout']);
 
     Route::get("/posts", [ExplorePostController::class, 'index']);
+
+    Route::get('/explore/search', [SearchController::class, '__invoke']);
 
     Route::get("/users/{user}/posts", [UserPostController::class, 'index']);
     Route::get("/users/{user}/posts/{post}", [UserPostController::class, 'show']);
