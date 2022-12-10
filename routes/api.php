@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\CommentController;
+use App\Http\Controllers\Account\EngagementController;
 use App\Http\Controllers\Account\LikeController;
 use App\Http\Controllers\PostController as ExplorePostController;
 use App\Http\Controllers\Account\PostController as AccountPostController;
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get("/users/{user}/posts", [UserPostController::class, 'index']);
     Route::get("/users/{user}/posts/{post}", [UserPostController::class, 'show']);
+    Route::post("/users/{user}/follow", [EngagementController::class, 'store']);
+    Route::delete("/users/{user}/follow", [EngagementController::class, 'destroy']);
 
     Route::prefix('/account')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update']);
