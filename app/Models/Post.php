@@ -21,6 +21,13 @@ class Post extends Model
         'created_at' => 'datetime:d-m-Y'
     ];
 
+    public function scopeSearch($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where('title', 'like', '%' . $search . '%');
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
