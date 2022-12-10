@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/logout", [LoginController::class, 'logout']);
 
     Route::get("/posts", [ExplorePostController::class, 'index']);
+    Route::get("/posts/featured", [ExplorePostController::class, 'featured']);
+    Route::get("/posts/latest", [ExplorePostController::class, 'latest']);
+    Route::get("/posts/trending", [ExplorePostController::class, 'trending']);
 
     Route::get('/explore/search', [SearchController::class, '__invoke']);
 
