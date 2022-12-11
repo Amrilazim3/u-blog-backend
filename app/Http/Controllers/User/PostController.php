@@ -43,10 +43,13 @@ class PostController extends Controller
             ->withCount(['comments', 'likes'])
             ->find($post->id);
 
-        // show follow condition
+        $isFollow = Engagement::where('user_id', request()->user()->id)
+            ->where('engaged_id', $user->id)
+            ->exists();
 
         return response()->json([
-            'post' => $rPost
+            'post' => $rPost,
+            'isFollow' => $isFollow
         ]);
     }
 }
