@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,8 +18,19 @@ class PostController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
+        $user = User::find(request()->user()->id);
+
+        $followers = $user->followers()->count();
+
+        $following = $user->following()->count();
+        
+        $postsCount = $user->posts()->count();
+
         return response()->json([
-            'posts' => $posts
+            'posts' => $posts,
+            'followers' => $followers,
+            'following' => $following,
+            'postsCount' => $postsCount,
         ]);
     }
 
