@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\ChatController;
 use App\Http\Controllers\Account\CommentController;
 use App\Http\Controllers\Account\EngagementController;
 use App\Http\Controllers\Account\LikeController;
@@ -46,6 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update']);
 
         Route::resource('posts', AccountPostController::class)->except(['ceate', 'edit']);
+
+        Route::get('chats', [ChatController::class, 'index']);
+        Route::get('chats/{user}', [ChatController::class, 'show']);
+        Route::post('chats', [ChatController::class, 'store']);
+        Route::delete('chats/{chat}', [ChatController::class, 'destroy']);
     });
 
     Route::get('/posts/{post}/likes', [LikeController::class, 'index']);
