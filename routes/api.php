@@ -7,6 +7,7 @@ use App\Http\Controllers\Account\LikeController;
 use App\Http\Controllers\PostController as ExplorePostController;
 use App\Http\Controllers\Account\PostController as AccountPostController;
 use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Account\SearchChatController;
 use App\Http\Controllers\User\PostController as UserPostController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -48,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::resource('posts', AccountPostController::class)->except(['ceate', 'edit']);
 
+        Route::get('chats/search', [SearchChatController::class, '__invoke']);
         Route::get('chats', [ChatController::class, 'index']);
         Route::get('chats/{user}', [ChatController::class, 'show']);
         Route::post('chats', [ChatController::class, 'store']);
