@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Engagement::class, 'user_id', 'id');
     }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'user_id_from');
+    }
 }
